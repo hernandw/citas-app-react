@@ -10,7 +10,7 @@ const App = () => {
       <Header />
       <div className="mt-12 md:flex p-5">
         <Formulario pacientes={pacientes} setPacientes={setPacientes}/>
-        <ListadoPacientes />
+        <ListadoPacientes pacientes={pacientes} />
       </div>
     </div>
   );
