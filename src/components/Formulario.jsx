@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Error from "./Error";
 
-const Formulario = ({ pacientes, setPacientes }) => {
+const Formulario = ({ pacientes, setPacientes, paciente }) => {
   const [name, setName] = useState("");
   const [owner, setOwner] = useState("");
   const [email, setEmail] = useState("");
@@ -9,14 +9,23 @@ const Formulario = ({ pacientes, setPacientes }) => {
   const [symptoms, setSymptoms] = useState("");
   const [error, setError] = useState(false);
 
-  const generarId = ()=>{
-    const fecha = Date.now().toString(36)
-    const ramdom = Math.random().toString(36).substr(2)
-    return fecha + ramdom
+  useEffect(() => {
+    if (Object.keys(paciente).length > 0) {
+      setName(paciente.name);
+      setOwner(paciente.owner);
+      setEmail(paciente.email);
+      setAlta(paciente.alta);
+      setSymptoms(paciente.symptoms);
+    }
+  }, [paciente]);
 
-  }
+  const generarId = () => {
+    const fecha = Date.now().toString(36);
+    const ramdom = Math.random().toString(36).substr(2);
+    return fecha + ramdom;
+  };
 
-  const id = generarId()
+  const id = generarId();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -46,7 +55,7 @@ const Formulario = ({ pacientes, setPacientes }) => {
         onSubmit={handleSubmit}
         className="bg-white shadow-md rounded-lg py-10 px-5"
       >
-        {error && <Error message='Todos los campos son obligatorios' />}
+        {error && <Error message="Todos los campos son obligatorios" />}
         <div className="mb-5">
           <label
             htmlFor="name"
@@ -130,7 +139,7 @@ const Formulario = ({ pacientes, setPacientes }) => {
         </div>
         <input
           type="submit"
-          value="Agregar Paciente"
+          value={paciente.id ? "Editar Paciente" : "Agregar Paciente"}
           className="bg-indigo-600 hover:bg-indigo-700 w-full p-3 text-white uppercase font-bold transition-colors cursor-pointer"
         />
       </form>
